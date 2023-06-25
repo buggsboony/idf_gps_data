@@ -1,0 +1,280 @@
+#include "gps_gns.h"
+#include <assert.h>
+#include <sstream>
+#include <stdlib.h>
+
+
+
+
+GPS::GPS()
+{
+    UTC                 = 0;
+    latitude            = 0;
+    longitude           = 0;
+    altitude            = 0;
+    numberSatellites    = 0;
+    speed               = 0;
+    heading             = 0;
+    date                = 0;
+    //2023-06-25 10:57:59 - Explicite valid or not
+    GGA_valid = false;
+    RMC_valid = false;
+}
+
+// Constructor using GGA and RMC sentences only. Assigns all data.
+GPS::GPS(string GGASentence,string RMCSentence){
+    if (isValidGGA(GGASentence)) setValuesGGA(GGASentence);else printf("GGA is not valid, oups (%s)\n",GGASentence.c_str());
+    if (isValidRMC(RMCSentence)) setValuesRMC(RMCSentence);else printf("RMC is not valid, oups (%s)\n",RMCSentence.c_str() );
+
+}
+
+// Set values from GGA sentence
+
+// Checks if GGA sentence is valid.
+//2023-06-25 10:53:37 - Modified to detect GNGGA (Glonass)
+bool GPS::isValidGGA(const string GGASentence){
+        //puts("isValidGGA*******************");
+        string err = "";
+    bool returnBool = true;
+    vector<std::string> elementVector = GPS::splitStringByComma(GGASentence);
+        
+        if((int)elementVector.size() <=0 )
+        {
+            printf("GGA not valid [%s]",GGASentence.c_str() );
+            return false;
+        }
+
+        if (elementVector.size() != 15) {
+             err ="GGA size is not (15); !!!!";
+         return false;}
+        if ( (elementVector[0] != "$GPGGA") && (elementVector[0] != "$GNGGA") ) {
+            // printf("ID diffrent\n");
+              return false;}
+        if (atoi(elementVector[6].c_str()) == 0)        { 
+            //printf("atoi failed 6!!!!!!!!!!\n"); 
+        return false;}
+        if (elementVector[4].length() < MINUTE_LENGTH)  { //printf("lement vector 4 failed !!!!!!!!!!\n");
+         return false; }
+        if (elementVector[2].length() < MINUTE_LENGTH)  { //printf("element vector 2!!!!!!!!!!\n");
+         return false; }
+        if (atoi(elementVector[7].c_str()) == 0)        { //printf("element vector 7!!!!!!!!!!\n");
+          return false; }
+ 
+    if( err != "")
+    {
+        cout<<"error:"<<err<<endl;
+    }
+
+    // if(returnBool)
+    // {
+    //     printlnErr("Ok GGA valid !");
+    // }
+    // if(!returnBool)
+    // {
+    //     printlnErr("Oups GGA not valid !");
+    // }
+    return returnBool;
+}
+
+// Input: GGA NMEA sentence
+// Output: set values in class.
+//2023-06-25 10:54:52 - Modified, to prevent exit on fail
+void GPS::setValuesGGA(string GGA){
+puts("setValuesGGA*******************");
+ this->GGA_valid = false;
+    vector<std::string> elementVector = splitStringByComma(GGA);
+    // Assert we have a GGA sentence
+    //assert(elementVector[0] == "$GPGGA");
+    if(  (elementVector[0] != "$GPGGA") && (elementVector[0] != "$GNGGA") )
+    {
+        //non valid GGA, GPS only nor Glonass)
+       
+        return;
+    }
+
+    this->UTC                 = atoi(elementVector[1].c_str());
+    this->latitude            = getCoordinates(elementVector[2]);
+    if (elementVector[3] == "S") this->latitude  = -this->latitude;
+    this->longitude           = getCoordinates(elementVector[4]);
+    if (elementVector[5] == "W") this->longitude  = -this->longitude;
+    this->altitude            = stringToDouble(elementVector[9]);
+    this->quality            = stringToDouble(elementVector[6]); //2023-06-25 13:20:45
+    this->numberSatellites    = atoi(elementVector[7].c_str());
+    
+    cout<<"----------Number of Sats:"<<this->numberSatellites<<endl;
+    cout<<"----------Fix quality:"<<this->quality<<endl;    
+    this->GGA_valid = true;
+}
+
+
+// RMC sentence
+
+// Check if RMC sentence is valid with NMEA standard.
+bool GPS::isValidRMC(const string RMCSentence){    
+    puts("isValidRMC*******************");
+    
+    bool returnBool = true;
+    vector<std::string> elementVector = splitStringByComma(RMCSentence);
+    if((int)elementVector.size() <=0 )
+    {
+        printf("GGA not valid [%s]",RMCSentence.c_str() );
+         return false;
+    }
+    if (elementVector.size() != 12)                 { return false;}
+    if ( (elementVector[0] != "$GPRMC") && (elementVector[0] != "$GNRMC") ) { return false;}
+    if (elementVector[2] != "A")                    { return false;}
+    if (elementVector[3].length() < MINUTE_LENGTH)  { return false;}
+    if (elementVector[5].length() < MINUTE_LENGTH)  { return false;}
+
+    return returnBool;
+
+}
+//2023-06-25 11:03:42 - Modified to detect Glonass RMC
+void GPS::setValuesRMC(const string RMCSentence){
+    puts("setValuesRMC*******************");
+    this->RMC_valid = false;
+    vector<std::string> elementVector = splitStringByComma(RMCSentence);
+    // Assert we have an RMC  sentence
+    // assert(elementVector[0] == "$GPRMC");    
+    if(  (elementVector[0] != "$GPRMC") && (elementVector[0] != "$GNRMC") )
+    {
+        //non valid GGA, GPS only nor Glonass)
+        
+        return;
+    }
+
+    this->UTC               = atoi(elementVector[1].c_str());
+    this->latitude          = getCoordinates(elementVector[3]);
+    if (elementVector[3] == "S") this->latitude  = -this->latitude;
+    this->longitude         = getCoordinates(elementVector[5]);
+    if (elementVector[5] == "W") this->longitude  = -this->longitude;
+    this->speed             = stringToDouble(elementVector[7])* KNOTS_TO_MPS;
+    this->heading           = stringToDouble(elementVector[8]);
+    this->date              = atoi(elementVector[9].c_str());
+
+
+    this->RMC_valid = true;
+}
+
+/*-----Auxiliary functions-----*/
+
+// Input: coma separated string
+// Output: Vector with all the elements in input.
+vector<string> GPS::splitStringByComma(string input){
+
+    vector<string>  returnVector;
+    stringstream    ss(input);
+    string          element;
+        //cout<<"input ======["<<input<<"]"<<endl;
+    while(std::getline(ss, element, ',')) {
+        //cout<<"getline ======["<<element<<"]"<<endl;
+        returnVector.push_back(element);
+    }
+
+
+    return returnVector;
+}
+double degreesToDecimal(int degrees, double minutes, int seconds )
+{
+    double returnDouble = 0;
+
+    returnDouble = degrees + minutes/60 + seconds/3600.0f;
+
+    return returnDouble;
+}
+double GPS::stringToDouble(string inputString){
+
+    //If string empty, return 0.
+    double returnValue = 0;
+    std::istringstream istr(inputString);
+
+    istr >> returnValue;
+
+    return (returnValue);
+
+}
+double GPS::getCoordinates(string array){
+
+
+cout<<"gpsCoord:"<<array<<endl;
+    double decimalDegrees = 0;
+    string degreeArray;
+    string minuteArray;
+    string secondArray;//2023-06-25 13:49:24
+
+
+    // Convert input array into two sub arrays containing the degrees and the minutes
+    // Check for correct array length
+    if (array.length() > MINUTE_LENGTH){
+
+        degreeArray.assign(array.begin(), array.end() - MINUTE_LENGTH);
+        minuteArray.assign(array.end() - MINUTE_LENGTH, array.end());
+
+        // Convert strings into numbers
+        int degrees;
+        double minutes;
+        degrees = atoi(degreeArray.c_str());
+        minutes = stringToDouble(minuteArray);
+
+        // Convert degrees and minutes into decimal
+        decimalDegrees = degreesToDecimal(degrees,minutes);
+
+    }
+    //cout<<"decimalDegrees:"<<decimalDegrees<<endl;
+    return decimalDegrees;
+
+}
+
+//détect si une chaine débute avec une autre.
+bool GPS::stringStartsWith(string str, string pattern)
+{
+	bool result= false;
+	if( str.length()>=pattern.length())
+	{
+		if(! str.substr(0,pattern.length()).compare(pattern) )
+		{
+			result = true;
+		}
+	}
+	return result;
+}
+
+//2023-06-25 12:28:27 - More convinient
+bool GPS::checkGGA(const string line, bool save)
+{
+    printf("Analyse de GGA --%s--\n",line.c_str() );
+    bool valid = false;
+    if(stringStartsWith(line,"$GPGGA,")||stringStartsWith(line,"$GNGGA,") )
+    { 
+        valid = this->isValidGGA(line);
+        if( (valid)&& save)
+        {
+            this->setValuesGGA(line);
+        }        
+    }else
+    {
+        printf("-----Not found GGA [%s]\n",line.c_str());
+    }
+    return valid;
+}//checkGGA
+
+bool GPS::checkRMC(const string line, bool save)
+{
+    cout<<"checkRMC disabled"<<endl;
+    return false;
+    bool valid = false;
+    if(stringStartsWith(line,"$GPRMC,")||stringStartsWith(line,"$GNRMC,")  )
+    {  
+        valid = this->isValidRMC(line);
+        if( (valid)&&save)
+        {
+            this->setValuesRMC(line);
+        }
+    }else
+    {
+        //printf("-----Not found RMC [%s]\n",line.c_str());
+    }
+    return valid;
+}//checkRMC
+
+
