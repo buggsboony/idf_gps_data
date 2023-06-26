@@ -108,14 +108,25 @@ void uart_event_task(void *pvParameters)
           
             if(myGPS.GGA_valid)
             {
-                 cout<<"GGA is OK"<<endl;
+                cout<<"GGA is OK"<<endl;
                 cout<<"myGPS LAT:"<<myGPS.latitude<<endl;
                 cout<<"myGPS LNG:"<<myGPS.longitude<<endl;
-                cout<<"myGPS SPD:"<<myGPS.speed<<endl;
                 cout<<"myGPS ALT:"<<myGPS.altitude<<endl;
+                cout<<"myGPS SPD:"<<myGPS.speed<<endl;
             }else
             {
-                cout<<"GGA is not valid"<<endl;
+                cout<<"No GGA valid found"<<endl;
+            }
+
+             if(myGPS.RMC_valid)
+            {
+                cout<<"RMC is OK"<<endl;
+                cout<<"myGPS LAT:"<<myGPS.latitude<<endl;
+                cout<<"myGPS LNG:"<<myGPS.longitude<<endl;       
+                cout<<"myGPS SPD:"<<myGPS.speed<<endl;
+            }else
+            {
+                cout<<"No RMC valid found"<<endl;
             }
        }//rxbytes
        vTaskDelay(100/portTICK_PERIOD_MS);

@@ -36,7 +36,7 @@ bool GPS::isValidGGA(const string GGASentence){
         //puts("isValidGGA*******************");
         string err = "";
     bool returnBool = true;
-    vector<std::string> elementVector = GPS::splitStringByComma(GGASentence);
+    vector<std::string> elementVector = splitStringByComma(GGASentence);
         
         if((int)elementVector.size() <=0 )
         {
@@ -80,7 +80,7 @@ bool GPS::isValidGGA(const string GGASentence){
 // Output: set values in class.
 //2023-06-25 10:54:52 - Modified, to prevent exit on fail
 void GPS::setValuesGGA(string GGA){
-puts("setValuesGGA*******************");
+//puts("setValuesGGA*******************");
  this->GGA_valid = false;
     vector<std::string> elementVector = splitStringByComma(GGA);
     // Assert we have a GGA sentence
@@ -93,16 +93,17 @@ puts("setValuesGGA*******************");
     }
 
     this->UTC                 = atoi(elementVector[1].c_str());
-    this->latitude            = getCoordinates(elementVector[2]);
-    if (elementVector[3] == "S") this->latitude  = -this->latitude;
-    this->longitude           = getCoordinates(elementVector[4]);
+    //this->latitude            = getCoordinates(elementVector[2]);
+    this->latitude            = rawCoordToDec(elementVector[2]);
+    if (elementVector[3] == "S") this->latitude  = -this->latitude;    
+    this->longitude = rawCoordToDec(elementVector[4]);
     if (elementVector[5] == "W") this->longitude  = -this->longitude;
     this->altitude            = stringToDouble(elementVector[9]);
     this->quality            = stringToDouble(elementVector[6]); //2023-06-25 13:20:45
     this->numberSatellites    = atoi(elementVector[7].c_str());
     
-    cout<<"----------Number of Sats:"<<this->numberSatellites<<endl;
-    cout<<"----------Fix quality:"<<this->quality<<endl;    
+    // cout<<"----------Number of Sats:"<<this->numberSatellites<<endl;
+    // cout<<"----------Fix quality:"<<this->quality<<endl;    
     this->GGA_valid = true;
 }
 
@@ -144,11 +145,13 @@ void GPS::setValuesRMC(const string RMCSentence){
     }
 
     this->UTC               = atoi(elementVector[1].c_str());
-    this->latitude          = getCoordinates(elementVector[3]);
+    //this->latitude          = getCoordinates(elementVector[3]);
+    this->latitude          = rawCoordToDec(elementVector[3]);    
     if (elementVector[3] == "S") this->latitude  = -this->latitude;
-    this->longitude         = getCoordinates(elementVector[5]);
+    //this->longitude         = getCoordinates(elementVector[5]);
+    this->longitude         = rawCoordToDec(elementVector[5]);
     if (elementVector[5] == "W") this->longitude  = -this->longitude;
-    this->speed             = stringToDouble(elementVector[7])* KNOTS_TO_MPS;
+    this->speed             = stringToDouble(elementVector[7])* SPEED_UNIT;
     this->heading           = stringToDouble(elementVector[8]);
     this->date              = atoi(elementVector[9].c_str());
 
@@ -160,13 +163,13 @@ void GPS::setValuesRMC(const string RMCSentence){
 
 // Input: coma separated string
 // Output: Vector with all the elements in input.
-vector<string> GPS::splitStringByComma(string input){
+vector<string> GPS::splitStringByComma(string input, char comma){
 
     vector<string>  returnVector;
     stringstream    ss(input);
     string          element;
         //cout<<"input ======["<<input<<"]"<<endl;
-    while(std::getline(ss, element, ',')) {
+    while(std::getline(ss, element, comma)) {
         //cout<<"getline ======["<<element<<"]"<<endl;
         returnVector.push_back(element);
     }
@@ -182,6 +185,8 @@ double degreesToDecimal(int degrees, double minutes, int seconds )
 
     return returnDouble;
 }
+
+
 double GPS::stringToDouble(string inputString){
 
     //If string empty, return 0.
@@ -193,6 +198,43 @@ double GPS::stringToDouble(string inputString){
     return (returnValue);
 
 }
+
+
+//2023-06-25 20:06:25 - Convert gps lat or long data to decimal value
+// Usage : 
+    // double lat= rawCoordToDec(rawLat);  
+    // double lng= rawCoordToDec(rawLng);  
+double GPS::rawCoordToDec(string array)
+{
+    //cout<<"gpsCoord:"<<array<<endl;
+    double decimalDegrees = 0;
+   
+    //2023-06-25 18:11:35 - Transform DMS format to split,//40 44 54.3 φ N, 73 59 9 λ W (DMS)
+    vector<string> parts = splitStringByComma(array,'.');
+    string deg_min = parts[0];   
+    string smin = deg_min.substr(deg_min.length() - 2);
+    string sdeg = deg_min.substr(0, deg_min.length() - smin.length() );
+    string ssec= "0000";
+
+    if(parts.size()>=2)//6909
+    {
+        ssec = parts[1]; //in fact this is not seconds, but the decimal part of minutes
+        smin+="."+ssec;
+    }
+
+    // Convert input array into two sub arrays containing the degrees and the minutes
+      int degrees = atoi(sdeg.c_str());
+    double   minutes =  stringToDouble(smin);
+
+    //cout<<"===["<<degrees<<"°"<<minutes<<"'"<<sec<<"\""<<"]==="<<endl;
+
+    // Convert degrees and minutes into decimal
+    decimalDegrees = degreesToDecimal(degrees,minutes);
+    //cout<<"decimalDegrees:"<<decimalDegrees<<endl;
+    return decimalDegrees;
+}//rawCoordToDec
+
+
 double GPS::getCoordinates(string array){
 
 
@@ -253,7 +295,7 @@ bool GPS::checkGGA(const string line, bool save)
         }        
     }else
     {
-        printf("-----Not found GGA [%s]\n",line.c_str());
+        //printf("-----Not found GGA [%s]\n",line.c_str());
     }
     return valid;
 }//checkGGA
