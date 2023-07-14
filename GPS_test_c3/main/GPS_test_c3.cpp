@@ -9,6 +9,9 @@
 #include "driver/gpio.h"
 
 #include "driver/uart.h"
+
+const char * TAG ="GPS_DATA";
+
 //#include "led_strip.h"
 //#include "sdkconfig.h"
 #include "esp_h/esp_console.h"
@@ -18,6 +21,7 @@
 //portTICK_RATE_MS : is defined as "( ( portTickType ) 1000 / configTICK_RATE_HZ )", while configTICK_RATE_HZ is defined as 1000 also. So portTICK_RATE_MS value is 1. What is this? 1 ms per tick? 1 tick per ms?
 
 
+
 #ifndef portTICK_RATE_MS
    #define portTICK_RATE_MS 1
 #endif
@@ -25,13 +29,17 @@ static const int RX_BUF_SIZE = 2024;
 
 
 //2023-06-24 22:01:16 - UART stuff
+// PIN OUT for ESP32-c3 And adafruit ultimate GPS
+// GPS TX is connected to Esp32-c3 RX (GPIO_NUM_2)
+// GPS RX is connected to Esp32-c3 TX (GPIO_NUM_3)
+
 const uart_port_t UART_PORT = (uart_port_t) 1;
-#define TXD_PIN2 (GPIO_NUM_3)
-#define RXD_PIN2 (GPIO_NUM_2)
+#define ESP_RXD_PIN (GPIO_NUM_2)
+#define ESP_TXD_PIN (GPIO_NUM_3)
 
 void uart_event_task(void *pvParameters)
 { 
-   ESP_LOGI(pcTaskGetName(0), "Start  RX(%d) TX(%d)",RXD_PIN2,TXD_PIN2);
+   ESP_LOGI(pcTaskGetName(0), "Start  RX(%d) TX(%d)",ESP_RXD_PIN,ESP_TXD_PIN);
    esp_log_level_set(pcTaskGetName(0), ESP_LOG_WARN);
 
 
@@ -56,7 +64,7 @@ void uart_event_task(void *pvParameters)
 
 
    //Set UART pins (using UART0 default pins ie no changes.)
-   uart_set_pin(UART_PORT, TXD_PIN2, RXD_PIN2, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+   uart_set_pin(UART_PORT, ESP_TXD_PIN, ESP_RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
  
    //uart_driver_install(UART_PORT, RX_BUF_SIZE * 2, 0, 20, &uart0_queue, 0);
    uart_driver_install(UART_PORT, RX_BUF_SIZE * 2, 0, 20, NULL, 0);
@@ -108,11 +116,13 @@ void uart_event_task(void *pvParameters)
           
             if(myGPS.GGA_valid)
             {
-                cout<<"GGA is OK"<<endl;
-                cout<<"myGPS LAT:"<<myGPS.latitude<<endl;
-                cout<<"myGPS LNG:"<<myGPS.longitude<<endl;
-                cout<<"myGPS ALT:"<<myGPS.altitude<<endl;
-                cout<<"myGPS SPD:"<<myGPS.speed<<endl;
+                ESP_LOGI(TAG,"GGA is OK");
+                ESP_LOGI(TAG,"myGPS Quality:%f",myGPS.quality);
+                ESP_LOGI(TAG,"myGPS Sat count:%d",myGPS.numberSatellites);
+                ESP_LOGI(TAG,"myGPS LAT:%f",myGPS.latitude);
+                ESP_LOGI(TAG,"myGPS LNG:%f",myGPS.longitude);
+                ESP_LOGI(TAG,"myGPS ALT:%f",myGPS.altitude);
+                ESP_LOGI(TAG,"myGPS SPD:%f",myGPS.speed);             
             }else
             {
                 cout<<"No GGA valid found"<<endl;
@@ -120,16 +130,18 @@ void uart_event_task(void *pvParameters)
 
              if(myGPS.RMC_valid)
             {
-                cout<<"RMC is OK"<<endl;
+                cout<<"************************RMC is OK*****************"<<endl;
                 cout<<"myGPS LAT:"<<myGPS.latitude<<endl;
                 cout<<"myGPS LNG:"<<myGPS.longitude<<endl;       
                 cout<<"myGPS SPD:"<<myGPS.speed<<endl;
+                cout<<"************************RMC*****************"<<endl;
+
             }else
             {
                 cout<<"No RMC valid found"<<endl;
             }
        }//rxbytes
-       vTaskDelay(100/portTICK_PERIOD_MS);
+       vTaskDelay(40/portTICK_PERIOD_MS);
    }//wend
    // never reach here
    free(data);
@@ -148,7 +160,7 @@ extern "C" void app_main(void)
    xTaskCreate(uart_event_task, "UART", 1024*4, NULL, 5, NULL);
 
 
-   vTaskDelay(600*10); //wait a 60 sec
+   vTaskDelay(600*10);
    printf("END PROG ..............;;");
 
 

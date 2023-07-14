@@ -374,8 +374,8 @@ string trimStr(string line)
 string between_last2(string line, string leftPattern, string rightPattern, bool includePattern=false)
 {
 	string r,str="";
-	if( line.find(leftPattern) <0 ){ return str; }
-	if( line.find(rightPattern) <0 ){ return str; }
+	if( ( (int)line.find(leftPattern) ) <0 ){ return str; }
+	if( ( (int)line.find(rightPattern) ) <0 ){ return str; }
 	//if( line.find(leftPattern) >= line.find(rightPattern)  ){ return str; }  //line = "<w f="10">sous</w>" recherche de "sous"
 
 	if(leftPattern.compare(rightPattern))
@@ -408,11 +408,12 @@ string between_last2(string line, string leftPattern, string rightPattern, bool 
 	return str;
 }//between_last2
 
+//2023-07-14 12:11:38 - cast int or use  if(  line.find(leftPattern) != std::string::npos ){...}
 string between_last(string line, string leftPattern, string rightPattern, bool includePattern=false)
 {
 	string str="";
-	if( line.find(leftPattern) <0 ){ return str; }
-	if( line.find(rightPattern) <0 ){ return str; }
+	if( ((int)line.find(leftPattern) ) <0 ){ return str; }
+	if( ((int)line.find(rightPattern) ) <0 ){ return str; }
 
 	int l = line.find(leftPattern)+leftPattern.length();
     int r = line.length() - line.find_last_of(rightPattern) + rightPattern.length()-1;
@@ -433,8 +434,9 @@ string between_last(string line, string leftPattern, string rightPattern, bool i
 string between_manual(string line, string leftPattern, string rightPattern, bool includePattern=false)
 {
 	string r,str="";
-	if( line.find(leftPattern) <0 ){ return str; }
-	if( line.find(rightPattern) <0 ){ return str; }
+	//2023-07-14 12:11:38 - cast int or use  if(  line.find(leftPattern) != std::string::npos ){...}
+	if( ((int)line.find(leftPattern)) <0 ){ return str; }
+	if( ((int)line.find(rightPattern)) <0 ){ return str; }
 	//if( line.find(leftPattern) >= line.find(rightPattern)  ){ return str; }  //line = "<w f="10">sous</w>" recherche de "sous"
 
 	if(leftPattern.compare(rightPattern))
