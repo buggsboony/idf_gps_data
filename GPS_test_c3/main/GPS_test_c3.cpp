@@ -26,6 +26,7 @@ const char * TAG ="GPS_DATA";
    #define portTICK_RATE_MS 1
 #endif
 static const int RX_BUF_SIZE = 2024;
+//static const int RX_BUF_SIZE = 4096;
 
 
 //2023-06-24 22:01:16 - UART stuff
@@ -78,11 +79,12 @@ void uart_event_task(void *pvParameters)
    //uart_pattern_queue_reset(UART_PORT, 20); //2023-06-18 20:56:20 - Hangs
    ESP_LOGI(pcTaskGetName(0), "Initializing UART done");
 
-
-     uint8_t* data = (uint8_t*)malloc(RX_BUF_SIZE+1);
-    while(1)
+   uint8_t* data = (uint8_t*)malloc(RX_BUF_SIZE+1);
+//    int msTimeout = 20; //TimeOut To wait Works With 2024 and 20ms
+    int msTimeout = 30; //TimeOut To wait Works With 2024 and 20ms
+    while(true)
    {
-       const int rxbytes = uart_read_bytes(UART_PORT,data, RX_BUF_SIZE,1000/portTICK_RATE_MS);
+       const int rxbytes = uart_read_bytes(UART_PORT,data, RX_BUF_SIZE,msTimeout/portTICK_RATE_MS);
        printf("rxbytes=[%d]\n",rxbytes);
        if(rxbytes>0)
        {
@@ -141,7 +143,15 @@ void uart_event_task(void *pvParameters)
                 cout<<"No RMC valid found"<<endl;
             }
        }//rxbytes
-       vTaskDelay(40/portTICK_PERIOD_MS);
+       else
+       {
+         //2023-07-20 14:13:03 - no rx bytes :
+            //ESP_LOGI(TAG,"-------------RxBytes:%d---------------",rxbytes);
+       }
+    //    int delayWait = 11;
+    //    cout<<"********Delay is "<<delayWait<<"MS"<<endl;
+    //    vTaskDelay(delayWait/portTICK_PERIOD_MS);
+       //vTaskDelay(40/portTICK_PERIOD_MS);
    }//wend
    // never reach here
    free(data);
