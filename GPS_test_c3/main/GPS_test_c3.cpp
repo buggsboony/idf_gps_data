@@ -25,9 +25,9 @@ const char * TAG ="GPS_DATA";
 #ifndef portTICK_RATE_MS
    #define portTICK_RATE_MS 1
 #endif
-static const int RX_BUF_SIZE = 2024;
+//static const int RX_BUF_SIZE = 2024;
 //static const int RX_BUF_SIZE = 4096;
-
+static const int RX_BUF_SIZE = 1024;
 
 //2023-06-24 22:01:16 - UART stuff
 // PIN OUT for ESP32-c3 And adafruit ultimate GPS
@@ -81,10 +81,10 @@ void uart_event_task(void *pvParameters)
 
    uint8_t* data = (uint8_t*)malloc(RX_BUF_SIZE+1);
 //    int msTimeout = 20; //TimeOut To wait Works With 2024 and 20ms
-    int msTimeout = 30; //TimeOut To wait Works With 2024 and 20ms
+    int msTimeout = 180; //msTimeout/portTICK_RATE_MS TimeOut To wait Works With 2024 and 20ms
     while(true)
    {
-       const int rxbytes = uart_read_bytes(UART_PORT,data, RX_BUF_SIZE,msTimeout/portTICK_RATE_MS);
+       const int rxbytes = uart_read_bytes(UART_PORT,data, RX_BUF_SIZE,pdMS_TO_TICKS(msTimeout) );
        printf("rxbytes=[%d]\n",rxbytes);
        if(rxbytes>0)
        {
@@ -121,6 +121,7 @@ void uart_event_task(void *pvParameters)
                 ESP_LOGI(TAG,"GGA is OK");
                 ESP_LOGI(TAG,"myGPS Quality:%f",myGPS.quality);
                 ESP_LOGI(TAG,"myGPS Sat count:%d",myGPS.numberSatellites);
+                ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
                 ESP_LOGI(TAG,"myGPS LAT:%f",myGPS.latitude);
                 ESP_LOGI(TAG,"myGPS LNG:%f",myGPS.longitude);
                 ESP_LOGI(TAG,"myGPS ALT:%f",myGPS.altitude);
@@ -133,6 +134,7 @@ void uart_event_task(void *pvParameters)
              if(myGPS.RMC_valid)
             {
                 cout<<"************************RMC is OK*****************"<<endl;
+                ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
                 cout<<"myGPS LAT:"<<myGPS.latitude<<endl;
                 cout<<"myGPS LNG:"<<myGPS.longitude<<endl;       
                 cout<<"myGPS SPD:"<<myGPS.speed<<endl;
@@ -146,11 +148,10 @@ void uart_event_task(void *pvParameters)
        else
        {
          //2023-07-20 14:13:03 - no rx bytes :
-            //ESP_LOGI(TAG,"-------------RxBytes:%d---------------",rxbytes);
+           // ESP_LOGI(TAG,"-------------RxBytes:%d---------------",rxbytes);
        }
-    //    int delayWait = 11;
-    //    cout<<"********Delay is "<<delayWait<<"MS"<<endl;
-    //    vTaskDelay(delayWait/portTICK_PERIOD_MS);
+       int delayWait = 1;
+       vTaskDelay(pdMS_TO_TICKS(delayWait) );
        //vTaskDelay(40/portTICK_PERIOD_MS);
    }//wend
    // never reach here

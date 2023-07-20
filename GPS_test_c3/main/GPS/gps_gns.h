@@ -14,12 +14,46 @@
 
 using namespace std;
 
+
+struct GPS_time {
+    short hours;
+    short minutes;
+    short seconds;
+    short milliseconds;
+    //2023-07-20 18:07:16 - Constructeur : 
+    GPS_time():hours(0),minutes(0),seconds(0),milliseconds(0) {}
+     //Convert to readable string His.ms
+    string toString(bool include_ms=true)
+    {
+        string str = "";
+        if(hours<=9) str.append("0");
+        str.append(std::to_string(hours) );
+        str.append(":");
+
+         if(minutes<=9) str.append("0");
+        str.append(std::to_string(minutes) );
+        str.append(":");
+
+         if(seconds<=9) str.append("0");
+        str.append(std::to_string(seconds) );        
+
+        if(include_ms)
+        {
+            str.append(".");
+            str.append(std::to_string(milliseconds));
+        }         
+        return str;
+    }
+};
+
 class GPS
 {
 public:
     GPS();
-    GPS(const string GGASentence,const string RMCSentence);
-    int     UTC;
+    GPS(const string GGASentence,const string RMCSentence);    
+    short local_hours_offset;//2023-07-20 18:23:34 - spécify local utc offset
+    int UTC;
+    GPS_time time;
     double  latitude;
     double  longitude;
     double  altitude;
@@ -36,6 +70,7 @@ public:
     bool checkGGA(const string GGASentence, bool save=true);
     bool checkRMC(const string RMCSentence, bool save=true);    
     double rawCoordToDec(string array); //2023-06-25 20:45:06
+    GPS_time rawToTime(string His_dot_MS);
 
 private:
     // Set values of each sentence type

@@ -92,7 +92,8 @@ void GPS::setValuesGGA(string GGA){
         return;
     }
 
-    this->UTC                 = atoi(elementVector[1].c_str());
+    this->UTC                 = atoi(elementVector[1].c_str()); //His.ms
+    this->time  = rawToTime(elementVector[1]); //Converted version
     //this->latitude            = getCoordinates(elementVector[2]);
     this->latitude            = rawCoordToDec(elementVector[2]);
     if (elementVector[3] == "S") this->latitude  = -this->latitude;    
@@ -145,6 +146,7 @@ void GPS::setValuesRMC(const string RMCSentence){
     }
 
     this->UTC               = atoi(elementVector[1].c_str());
+    this->time  = rawToTime(elementVector[1]); //Converted version
     //this->latitude          = getCoordinates(elementVector[3]);
     this->latitude          = rawCoordToDec(elementVector[3]);    
     if (elementVector[3] == "S") this->latitude  = -this->latitude;
@@ -233,6 +235,23 @@ double GPS::rawCoordToDec(string array)
     //cout<<"decimalDegrees:"<<decimalDegrees<<endl;
     return decimalDegrees;
 }//rawCoordToDec
+
+
+//2023-07-20 17:36:28 - Convert 213714.00 to 21H37 14sec 00ms
+GPS_time GPS::rawToTime(string His_dot_MS)
+{       
+    string sH = His_dot_MS.substr(0,2);
+    string si = His_dot_MS.substr(2,2);
+    string ss = His_dot_MS.substr(4,2);
+    string ms = His_dot_MS.substr(7);
+
+    GPS_time gps_time;
+    gps_time.hours = atoi(sH.c_str());
+    gps_time.minutes = atoi(si.c_str());
+    gps_time.seconds = atoi(ss.c_str());
+    gps_time.milliseconds = atoi(ms.c_str());
+    return gps_time;
+}//rawToMsTime
 
 
 double GPS::getCoordinates(string array){
