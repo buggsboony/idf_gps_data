@@ -8,6 +8,7 @@
 
 GPS::GPS()
 {
+    //Initializations
     UTC                 = 0;
     latitude            = 0;
     longitude           = 0;
@@ -19,6 +20,8 @@ GPS::GPS()
     //2023-06-25 10:57:59 - Explicite valid or not
     GGA_valid = false;
     RMC_valid = false;
+    //2023-07-21 08:11:49 - local offset
+    localOffsetHours = 0;
 }
 
 // Constructor using GGA and RMC sentences only. Assigns all data.
@@ -237,7 +240,7 @@ double GPS::rawCoordToDec(string array)
 }//rawCoordToDec
 
 
-//2023-07-20 17:36:28 - Convert 213714.00 to 21H37 14sec 00ms
+//2023-07-20 17:36:28 - Convert 213714.00 to 21:37:14.00
 GPS_time GPS::rawToTime(string His_dot_MS)
 {       
     string sH = His_dot_MS.substr(0,2);
@@ -245,12 +248,19 @@ GPS_time GPS::rawToTime(string His_dot_MS)
     string ss = His_dot_MS.substr(4,2);
     string ms = His_dot_MS.substr(7);
 
-    GPS_time gps_time;
-    gps_time.hours = atoi(sH.c_str());
-    gps_time.minutes = atoi(si.c_str());
-    gps_time.seconds = atoi(ss.c_str());
-    gps_time.milliseconds = atoi(ms.c_str());
-    return gps_time;
+    GPS_time gps_time_utc;
+    gps_time_utc.hours = atoi(sH.c_str());
+    gps_time_utc.minutes = atoi(si.c_str());
+    gps_time_utc.seconds = atoi(ss.c_str());
+    gps_time_utc.milliseconds = atoi(ms.c_str());
+    
+    if( localOffsetHours != 0 )
+    {
+        return GPS_time::convertToTimezone(gps_time_utc, localOffsetHours);    
+    }else
+    {
+        return gps_time_utc;
+    }
 }//rawToMsTime
 
 

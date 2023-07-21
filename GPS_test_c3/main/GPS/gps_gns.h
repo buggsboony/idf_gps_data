@@ -20,8 +20,9 @@ struct GPS_time {
     short minutes;
     short seconds;
     short milliseconds;
+    short localOffsetHours; //2023-07-21 07:56:14 - Set offset hours for local hour. exemple: localOffsetHours -4 for GMT -4    
     //2023-07-20 18:07:16 - Constructeur : 
-    GPS_time():hours(0),minutes(0),seconds(0),milliseconds(0) {}
+    GPS_time():hours(0),minutes(0),seconds(0),milliseconds(0),localOffsetHours(0) {}
      //Convert to readable string His.ms
     string toString(bool include_ms=true)
     {
@@ -44,6 +45,29 @@ struct GPS_time {
         }         
         return str;
     }
+   
+   //2023-07-21 08:04:06 - convertToTimezone 
+    static GPS_time convertToTimezone(GPS_time gps_utc, int offsetHours) {        
+        // Ajouter l'offset horaire spécifié pour obtenir l'heure locale
+        int hoursLocal = gps_utc.hours + offsetHours;
+        int minutesLocal = (gps_utc.minutes + offsetHours * 60 + 60) % 60;
+        int secondsLocal = (gps_utc.seconds + offsetHours * 3600 + 3600) % 60;
+
+        // Ajuster les heures, les minutes et les secondes pour être dans des plages valides
+        if (hoursLocal < 0) {
+            hoursLocal += 24;
+        }
+        hoursLocal %= 24;
+        minutesLocal = (minutesLocal + 60) % 60;
+        secondsLocal = (secondsLocal + 60) % 60;
+
+        GPS_time result;
+        result.hours = hoursLocal;
+        result.minutes = minutesLocal;
+        result.seconds = secondsLocal;
+        result.milliseconds = gps_utc.milliseconds; //2023-07-21 08:03:19 - keep ms
+        return result;
+    }
 };
 
 class GPS
@@ -51,7 +75,7 @@ class GPS
 public:
     GPS();
     GPS(const string GGASentence,const string RMCSentence);    
-    short local_hours_offset;//2023-07-20 18:23:34 - spécify local utc offset
+    short localOffsetHours;//2023-07-20 18:23:34 - spécify local utc offset
     int UTC;
     GPS_time time;
     double  latitude;
