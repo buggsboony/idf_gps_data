@@ -43,24 +43,25 @@ bool GPS::isValidGGA(const string GGASentence){
         
         if((int)elementVector.size() <=0 )
         {
+           lastError="No RMC elements found"; 
             printf("GGA not valid [%s]",GGASentence.c_str() );
             return false;
         }
 
         if (elementVector.size() != 15) {
-             err ="GGA size is not (15); !!!!";
+            lastError="GGA element count is not 15"; 
          return false;}
         if ( (elementVector[0] != "$GPGGA") && (elementVector[0] != "$GNGGA") ) {
-            // printf("ID diffrent\n");
+           lastError="Not GPGGA or GNGGA";
               return false;}
         if (atoi(elementVector[6].c_str()) == 0)        { 
             //printf("atoi failed 6!!!!!!!!!!\n"); 
         return false;}
-        if (elementVector[4].length() < MINUTE_LENGTH)  { //printf("lement vector 4 failed !!!!!!!!!!\n");
+        if (elementVector[4].length() < MINUTE_LENGTH)  { lastError="GGA element[4] length < MINUTE_LENGTH";  //printf("lement vector 4 failed !!!!!!!!!!\n");
          return false; }
-        if (elementVector[2].length() < MINUTE_LENGTH)  { //printf("element vector 2!!!!!!!!!!\n");
+        if (elementVector[2].length() < MINUTE_LENGTH)  { lastError="GGA element[2] length < MINUTE_LENGTH";  ///printf("element vector 2!!!!!!!!!!\n");
          return false; }
-        if (atoi(elementVector[7].c_str()) == 0)        { //printf("element vector 7!!!!!!!!!!\n");
+        if (atoi(elementVector[7].c_str()) == 0)        { lastError="GGA element[7] is empty";  ///printf("element vector 7!!!!!!!!!!\n");
           return false; }
  
     if( err != "")
@@ -123,13 +124,14 @@ bool GPS::isValidRMC(const string RMCSentence){
     if((int)elementVector.size() <=0 )
     {
         printf("GGA not valid [%s]",RMCSentence.c_str() );
+        lastError="No RMC elements found"; 
          return false;
     }
-    if (elementVector.size() != 12)                 { return false;}
-    if ( (elementVector[0] != "$GPRMC") && (elementVector[0] != "$GNRMC") ) { return false;}
-    if (elementVector[2] != "A")                    { return false;}
-    if (elementVector[3].length() < MINUTE_LENGTH)  { return false;}
-    if (elementVector[5].length() < MINUTE_LENGTH)  { return false;}
+    if (elementVector.size() != 13)                 {lastError="RMC element count is not 13"; return false;}
+    if ( (elementVector[0] != "$GPRMC") && (elementVector[0] != "$GNRMC") ) { lastError="Not GPRMC or GNRMC"; return false;}
+    if (elementVector[2] != "A")                    { lastError="Invalid(from device)"; return false;}
+    if (elementVector[3].length() < MINUTE_LENGTH)  { lastError="element[3] length < MINUTE_LENGTH"; return false;}
+    if (elementVector[5].length() < MINUTE_LENGTH)  { lastError="element[5] length < MINUTE_LENGTH";  return false;}
 
     return returnBool;
 
@@ -144,7 +146,7 @@ void GPS::setValuesRMC(const string RMCSentence){
     if(  (elementVector[0] != "$GPRMC") && (elementVector[0] != "$GNRMC") )
     {
         //non valid GGA, GPS only nor Glonass)
-        
+        cout<<"GPRMC exit"<<endl;
         return;
     }
 
@@ -330,9 +332,8 @@ bool GPS::checkGGA(const string line, bool save)
 }//checkGGA
 
 bool GPS::checkRMC(const string line, bool save)
-{
-    cout<<"checkRMC disabled"<<endl;
-    return false;
+{    
+    printf("Analyse de RMC --%s--\n",line.c_str() );
     bool valid = false;
     if(stringStartsWith(line,"$GPRMC,")||stringStartsWith(line,"$GNRMC,")  )
     {  

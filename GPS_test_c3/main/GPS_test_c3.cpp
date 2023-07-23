@@ -81,7 +81,7 @@ void uart_event_task(void *pvParameters)
 
    uint8_t* data = (uint8_t*)malloc(RX_BUF_SIZE+1);
 //    int msTimeout = 20; //TimeOut To wait Works With 2024 and 20ms
-    int msTimeout = 180; //msTimeout/portTICK_RATE_MS TimeOut To wait Works With 2024 and 20ms
+    int msTimeout = 1180; //msTimeout/portTICK_RATE_MS TimeOut To wait Works With 2024 and 20ms
     while(true)
    {
        const int rxbytes = uart_read_bytes(UART_PORT,data, RX_BUF_SIZE,pdMS_TO_TICKS(msTimeout) );
@@ -124,8 +124,7 @@ void uart_event_task(void *pvParameters)
                 ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
                 ESP_LOGI(TAG,"myGPS LAT:%f",myGPS.latitude);
                 ESP_LOGI(TAG,"myGPS LNG:%f",myGPS.longitude);
-                ESP_LOGI(TAG,"myGPS ALT:%f",myGPS.altitude);
-                ESP_LOGI(TAG,"myGPS SPD:%f",myGPS.speed);             
+                ESP_LOGI(TAG,"myGPS ALT:%f",myGPS.altitude);          
             }else
             {
                 cout<<"No GGA valid found"<<endl;
@@ -133,7 +132,8 @@ void uart_event_task(void *pvParameters)
 
              if(myGPS.RMC_valid)
             {
-                cout<<"************************RMC is OK*****************"<<endl;
+                cout<<"**** RMC is OK ****"<<endl;
+                ESP_LOGI(TAG,"RMC is OK");
                 ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
                 cout<<"myGPS LAT:"<<myGPS.latitude<<endl;
                 cout<<"myGPS LNG:"<<myGPS.longitude<<endl;       
@@ -142,6 +142,7 @@ void uart_event_task(void *pvParameters)
 
             }else
             {
+                
                 cout<<"No RMC valid found"<<endl;
             }
        }//rxbytes

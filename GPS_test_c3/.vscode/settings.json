@@ -77,5 +77,6 @@
         "valarray": "cpp",
         "variant": "cpp"
     },
-    "editor.autoClosingBrackets": "never"
+    "editor.autoClosingBrackets": "never",
+    "idf.adapterTargetName": "esp32c3"
 }

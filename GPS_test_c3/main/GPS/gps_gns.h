@@ -95,6 +95,7 @@ public:
     bool checkRMC(const string RMCSentence, bool save=true);    
     double rawCoordToDec(string array); //2023-06-25 20:45:06
     GPS_time rawToTime(string His_dot_MS);
+    string lastError;
 
 private:
     // Set values of each sentence type
