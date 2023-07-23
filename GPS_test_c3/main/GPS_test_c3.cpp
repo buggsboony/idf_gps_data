@@ -118,13 +118,13 @@ void uart_event_task(void *pvParameters)
           
             if(myGPS.GGA_valid)
             {
-                ESP_LOGI(TAG,"GGA is OK");
-                ESP_LOGI(TAG,"myGPS Quality:%f",myGPS.quality);
-                ESP_LOGI(TAG,"myGPS Sat count:%d",myGPS.numberSatellites);
-                ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
-                ESP_LOGI(TAG,"myGPS LAT:%f",myGPS.latitude);
-                ESP_LOGI(TAG,"myGPS LNG:%f",myGPS.longitude);
-                ESP_LOGI(TAG,"myGPS ALT:%f",myGPS.altitude);          
+                ESP_LOGW(TAG,"GGA is OK");
+                ESP_LOGW(TAG,"myGPS Quality:%f",myGPS.quality);
+                ESP_LOGW(TAG,"myGPS Sat count:%d",myGPS.numberSatellites);
+                ESP_LOGW(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
+                ESP_LOGW(TAG,"myGPS LAT:%f",myGPS.latitude);
+                ESP_LOGW(TAG,"myGPS LNG:%f",myGPS.longitude);
+                ESP_LOGW(TAG,"myGPS ALT:%f",myGPS.altitude);          
             }else
             {
                 cout<<"No GGA valid found"<<endl;
@@ -135,9 +135,9 @@ void uart_event_task(void *pvParameters)
                 cout<<"**** RMC is OK ****"<<endl;
                 ESP_LOGI(TAG,"RMC is OK");
                 ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
-                cout<<"myGPS LAT:"<<myGPS.latitude<<endl;
-                cout<<"myGPS LNG:"<<myGPS.longitude<<endl;       
-                cout<<"myGPS SPD:"<<myGPS.speed<<endl;
+                ESP_LOGI(TAG,"myGPS LAT:%f",myGPS.latitude);
+                ESP_LOGI(TAG,"myGPS LNG:%f",myGPS.longitude); 
+                ESP_LOGI(TAG,"myGPS SPD:%f",myGPS.speed);          
                 cout<<"************************RMC*****************"<<endl;
 
             }else
