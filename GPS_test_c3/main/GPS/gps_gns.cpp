@@ -158,7 +158,7 @@ void GPS::setValuesRMC(const string RMCSentence){
     //this->longitude         = getCoordinates(elementVector[5]);
     this->longitude         = rawCoordToDec(elementVector[5]);
     if (elementVector[5] == "W") this->longitude  = -this->longitude;
-    this->speed             = stringToDouble(elementVector[7])* SPEED_UNIT;
+    this->speed             = stringToDouble(elementVector[7])*SPEED_UNIT;
     this->heading           = stringToDouble(elementVector[8]);
     this->date              = atoi(elementVector[9].c_str());
 

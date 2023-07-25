@@ -7,8 +7,10 @@
 
 #define MINUTE_LENGTH 9 // Length of minutes data in NMEA
 #define KNOTS_TO_MPS 0.514444444
+#define KNOTS_TO_KMH 1.852
 //#define SPEED_UNIT KNOTS_TO_MPS
-#define SPEED_UNIT 1
+#define SPEED_UNIT KNOTS_TO_KMH
+//#define SPEED_UNIT 1 //#KNOTS (default RMS GPS metric)
 
 #define private public
 

@@ -25,9 +25,9 @@ const char * TAG ="GPS_DATA";
 #ifndef portTICK_RATE_MS
    #define portTICK_RATE_MS 1
 #endif
-//static const int RX_BUF_SIZE = 2024;
+static const int RX_BUF_SIZE = 2048;
 //static const int RX_BUF_SIZE = 4096;
-static const int RX_BUF_SIZE = 1024;
+//static const int RX_BUF_SIZE = 1024;
 
 //2023-06-24 22:01:16 - UART stuff
 // PIN OUT for ESP32-c3 And adafruit ultimate GPS
@@ -81,8 +81,13 @@ void uart_event_task(void *pvParameters)
 
    uint8_t* data = (uint8_t*)malloc(RX_BUF_SIZE+1);
 //    int msTimeout = 20; //TimeOut To wait Works With 2024 and 20ms
-    int msTimeout = 1180; //msTimeout/portTICK_RATE_MS TimeOut To wait Works With 2024 and 20ms
-    while(true)
+    int msTimeout = 900; //msTimeout/portTICK_RATE_MS TimeOut To wait Works With 2024 and 20ms
+    //Pour msTimeout = 1180 et  RX_BUF_SIZE = 1024, we get 10 analyze loops in 18 secs.
+  
+    TickType_t startTicksCount = xTaskGetTickCount();
+    TickType_t fixGPS_TicksCount;
+    bool fix_found_first_time = false;
+   while(true)
    {
        const int rxbytes = uart_read_bytes(UART_PORT,data, RX_BUF_SIZE,pdMS_TO_TICKS(msTimeout) );
        printf("rxbytes=[%d]\n",rxbytes);
@@ -94,7 +99,8 @@ void uart_event_task(void *pvParameters)
             string GGA_sentence="", RMC_sentence="";
 
             //2023-06-25 12:26:15 - reinitialize GPS stuff
-            GPS myGPS = GPS();            
+            GPS myGPS = GPS(); 
+            myGPS.localOffsetHours=-4; //GMT-4           
             myGPS.GGA_valid=false;
             myGPS.RMC_valid=false;
             for(string line:lines)
@@ -108,7 +114,14 @@ void uart_event_task(void *pvParameters)
                 }
                 
                 if(myGPS.checkRMC(line,true) )
-                {          
+                {     
+                    if(!fix_found_first_time)
+                    {
+                        fix_found_first_time = true;
+                        fixGPS_TicksCount = xTaskGetTickCount(); //2023-07-25 13:52:38 - Get elapsed time to find a GPS Fix
+                        TickType_t elapsedTicks = fixGPS_TicksCount - startTicksCount;
+                        printf("Got fix at : %u ticks\n", (unsigned int) elapsedTicks);
+                    }
                     RMC_sentence = line;
                     println("RMC="+RMC_sentence,KYEL);
                 }
@@ -118,16 +131,18 @@ void uart_event_task(void *pvParameters)
           
             if(myGPS.GGA_valid)
             {
-                ESP_LOGW(TAG,"GGA is OK");
-                ESP_LOGW(TAG,"myGPS Quality:%f",myGPS.quality);
-                ESP_LOGW(TAG,"myGPS Sat count:%d",myGPS.numberSatellites);
-                ESP_LOGW(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
-                ESP_LOGW(TAG,"myGPS LAT:%f",myGPS.latitude);
-                ESP_LOGW(TAG,"myGPS LNG:%f",myGPS.longitude);
+                ESP_LOGI(TAG,"GGA is OK");
+                ESP_LOGI(TAG,"myGPS Quality:%f",myGPS.quality);
+                ESP_LOGI(TAG,"myGPS Sat count:%d",myGPS.numberSatellites);
+                ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
+                ESP_LOGI(TAG,"myGPS LAT:%f",myGPS.latitude);
+                ESP_LOGI(TAG,"myGPS LNG:%f",myGPS.longitude);
                 ESP_LOGW(TAG,"myGPS ALT:%f",myGPS.altitude);          
             }else
             {
                 cout<<"No GGA valid found"<<endl;
+                
+   
             }
 
              if(myGPS.RMC_valid)
@@ -137,7 +152,7 @@ void uart_event_task(void *pvParameters)
                 ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
                 ESP_LOGI(TAG,"myGPS LAT:%f",myGPS.latitude);
                 ESP_LOGI(TAG,"myGPS LNG:%f",myGPS.longitude); 
-                ESP_LOGI(TAG,"myGPS SPD:%f",myGPS.speed);          
+                ESP_LOGW(TAG,"myGPS SPD:%f KM/H",myGPS.speed);          
                 cout<<"************************RMC*****************"<<endl;
 
             }else

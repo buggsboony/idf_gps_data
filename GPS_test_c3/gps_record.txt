@@ -1,0 +1,419 @@
+Script démarré sur 2023-07-25 10:50:19-04:00 [TERM="xterm-256color" TTY="/dev/pts/5" COLUMNS="250" LINES="52"]
+]0;boony@atuf:/run/media/boony/data/boony/documents/dev/IDF_PROJS/idf_gps_data/GPS_test_c3[?2004h[01;32m[boony@atuf[01;37m GPS_test_c3[01;32m]$[00m ll
+[?2004lbash: ll : commande introuvable
+]0;boony@atuf:/run/media/boony/data/boony/documents/dev/IDF_PROJS/idf_gps_data/GPS_test_c3[?2004h[01;32m[boony@atuf[01;37m GPS_test_c3[01;32m]$[00m idf.py 
+[?2004lUsage: idf.py [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+
+  ESP-IDF CLI build management tool. For commands that are not known to idf.py an attempt to execute it as a build system target will be
+  made. Selected target: esp32c3
+
+Options:
+  --version                       Show IDF version and exit.
+  --list-targets                  Print list of supported targets and exit.
+  -C, --project-dir PATH          Project directory.
+  -B, --build-dir PATH            Build directory.
+  -w, --cmake-warn-uninitialized / -n, --no-warnings
+                                  Enable CMake uninitialized variable warnings for CMake files inside the project directory. (--no-
+                                  warnings is now the default, and doesn't need to be specified.) The default value can be set with the
+                                  IDF_CMAKE_WARN_UNINITIALIZED environment variable.
+  -v, --verbose                   Verbose build output.
+  --preview                       Enable IDF features that are still in preview.
+  --ccache / --no-ccache          Use ccache in build. Disabled by default. The default value can be set with the IDF_CCACHE_ENABLE
+                                  environment variable.
+  -G, --generator [Ninja|Unix Makefiles]
+                                  CMake generator.
+  --no-hints                      Disable hints on how to resolve errors and logging.
+  -D, --define-cache-entry TEXT   Create a cmake cache entry. This option can be used at most once either globally, or for one subcommand.
+  -p, --port TEXT                 Serial port. The default value can be set with the ESPPORT environment variable. This option can be used
+                                  at most once either globally, or for one subcommand.
+  -b, --baud INTEGER              Baud rate for flashing. It can imply monitor baud rate as well if it hasn't been defined locally. The
+                                  default value can be set with the ESPBAUD environment variable. This option can be used at most once
+                                  either globally, or for one subcommand.
+  --help                          Show this message and exit.
+
+Commands:
+  add-dependency               Add dependency to the manifest file. For now we only support adding dependencies from the component
+                               registry.
+  all                          Aliases: build. Build the project.
+  app                          Build only the app.
+  app-flash                    Flash the app only.
+  bootloader                   Build only bootloader.
+  bootloader-flash             Flash bootloader only.
+  build-system-targets         Print list of build system targets.
+  clean                        Delete build output files from the build directory.
+  confserver                   Run JSON configuration server.
+  coredump-debug               Create core dump ELF file and run GDB debug session with this file.
+  coredump-info                Print crashed task’s registers, callstack, list of available tasks in the system, memory regions and
+                               contents of memory stored in core dump (TCBs and stacks)
+  create-component             Create a new component.
+  create-manifest              Create manifest for specified component.
+  create-project               Create a new project.
+  create-project-from-example  Create a project from an example.
+  delete-version               (Deprecated) Deprecated! New CLI command: "compote component delete". Delete specified version of the
+                               component from the component registry.
+  docs                         Open web browser with documentation for ESP-IDF
+  efuse-common-table           Generate C-source for IDF's eFuse fields.
+  efuse-custom-table           Generate C-source for user's eFuse fields.
+  encrypted-app-flash          Flash the encrypted app only.
+  encrypted-flash              Flash the encrypted project.
+  erase-flash                  Erase entire flash chip.
+  erase-otadata                Erase otadata partition.
+  flash                        Flash the project.
+  fullclean                    Delete the entire build directory contents.
+  gdb                          Run the GDB.
+  gdbgui                       GDB UI in default browser.
+  gdbtui                       GDB TUI mode.
+  menuconfig                   Run "menuconfig" project configuration tool.
+  monitor                      Display serial output.
+  openocd                      Run openocd from current path
+  pack-component               (Deprecated) Deprecated! New CLI command: "compote component pack". Create component archive and store it
+                               in the dist directory.
+  partition-table              Build only partition table.
+  partition-table-flash        Flash partition table only.
+  post-debug                   Utility target to read the output of async debug action and stop them.
+  python-clean                 Delete generated Python byte code from the IDF directory
+  read-otadata                 Read otadata partition.
+  reconfigure                  Re-run CMake.
+  save-defconfig               Generate a sdkconfig.defaults with options different from the default ones
+  set-target                   Set the chip target to build.
+  show-efuse-table             Print eFuse table.
+  size                         Print basic size information about the app.
+  size-components              Print per-component size information.
+  size-files                   Print per-source-file size information.
+  uf2                          Generate the UF2 binary with all the binaries included
+  uf2-app                      Generate an UF2 binary for the application only
+  upload-component             (Deprecated) Deprecated! New CLI command: "compote component upload". Upload component to the component
+                               registry. If the component doesn't exist in the registry it will be created automatically.
+  upload-component-status      (Deprecated) Deprecated! New CLI command: "compote component upload-status". Check the component uploading
+                               status by the job ID.
+]0;boony@atuf:/run/media/boony/data/boony/documents/dev/IDF_PROJS/idf_gps_data/GPS_test_c3[?2004h[01;32m[boony@atuf[01;37m GPS_test_c3[01;32m]$[00m idf.py -[K[K[K[K[K[K[K[Kz[Kzsh
+[?2004l[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                          ]2;boony@atuf:~dev/IDF_PROJS/idf_gps_data/GPS_test_c3]1;..a/GPS_test_c3[0m[27m[24m[J[0m[49m[39m[0m[47m[38;5;30m [0m[38;5;30m[47m[47m[38;5;30m [0m[38;5;30m[47m[48;5;30m[37m[0m[37m[48;5;30m[48;5;30m[38;5;254m  [1m[38;5;254m[48;5;30m[38;5;255m~dev[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m/IDF_PROJS/[1m[38;5;254m[48;5;30m[38;5;255midf_gps_data[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m/[1m[38;5;254m[48;5;30m[38;5;255mGPS_test_c3[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m[0m[38;5;254m[48;5;30m[48;5;30m[38;5;254m [0m[38;5;254m[48;5;30m[100m[38;5;30m[0m[38;5;30m[100m[100m[30m  [30m main  [0m[30m[100m[100m[30m [0m[30m[100m[49m[90m[0m[90m[49m[39m [0m[49m[39m[K[183C[0m[49m[30m[0m[30m[40m[32m [0m[32m[40m[40m[32m✔[0m[32m[40m[40m[32m [0m[32m[40m[49m[39m[187D[?2004h[?25l[0m[27m[24m[J[0m[49m[39m[0m[47m[38;5;30m [0m[38;5;30m[47m[47m[38;5;30m [0m[38;5;30m[47m[48;5;30m[37m[0m[37m[48;5;30m[48;5;30m[38;5;254m  [1m[38;5;254m[48;5;30m[38;5;255m~dev[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m/IDF_PROJS/[1m[38;5;254m[48;5;30m[38;5;255midf_gps_data[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m/[1m[38;5;254m[48;5;30m[38;5;255mGPS_test_c3[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m[0m[38;5;254m[48;5;30m[48;5;30m[38;5;254m [0m[38;5;254m[48;5;30m[42m[38;5;30m[0m[38;5;30m[42m[42m[30m  [30m main [30m?1  [0m[30m[42m[42m[30m [0m[30m[42m[49m[32m[0m[32m[49m[39m [0m[49m[39m[K[180C[0m[49m[30m[0m[30m[40m[32m [0m[32m[40m[40m[32m✔[0m[32m[40m[40m[32m [0m[32m[40m[49m[39m[184D[?25h[1m[31mi[0m[39m[1m[31mi[0m[39m[38;5;244mdf.py -p /dev/ttyUSB0 monitor[39m[29D[0m[32mi[32md[39m[1m[31mi[1m[31md[1m[31mf[0m[39m[1m[31mf[1m[31m.[0m[39m[1m[31m.[1m[31mp[0m[39m[0m[32mi[0m[32md[0m[32mf[0m[32m.[0m[32mp[32my[39m[39m [39m-[39mp[39m [39m[4m/[39m[4md[39m[4me[39m[4mv[39m[4m/[39m[4mt[39m[4mt[39m[4my[39m[4mU[39m[4mS[39m[4mB[39m[4m0[24m[39m [39mm[39mo[39mn[39mi[39mt[39mo[39mr[?2004l
+]2;idf.py -p /dev/ttyUSB0 monitor]1;Executing action: monitor
+Running idf_monitor in directory /run/media/boony/data/boony/documents/dev/IDF_PROJS/idf_gps_data/GPS_test_c3
+Executing "/home/boony/.espressif/python_env/idf5.2_py3.10_env/bin/python /home/boony/Documents/srcs/esp-idf/tools/idf_monitor.py -p /dev/ttyUSB0 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32c3 --decode-panic backtrace /run/media/boony/data/boony/documents/dev/IDF_PROJS/idf_gps_data/GPS_test_c3/build/GPS_test_c3.elf -m '/home/boony/.espressif/python_env/idf5.2_py3.10_env/bin/python' '/home/boony/Documents/srcs/esp-idf/tools/idf.py' '-p' '/dev/ttyUSB0'"...
+[0;33m--- idf_monitor on /dev/ttyUSB0 115200 ---[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---[0m
+ESP-ROM:esp32c3-api1-20210207
+Build:Feb  7 2021
+rst:0x1 (POWERON),boot:0xd (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x1738
+load:0x403cc710,len:0xae8
+load:0x403ce710,len:0x2e38
+entry 0x403cc71a
+[0;32mI (30) boot: ESP-IDF v5.2-dev-823-g903af13e84-dirty 2nd stage bootloader[0m
+[0;32mI (30) boot: compile time Jul 22 2023 16:25:53[0m
+[0;32mI (31) boot: chip revision: v0.3[0m
+[0;32mI (35) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (40) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (45) boot.esp32c3: SPI Flash Size : 2MB[0m
+[0;32mI (49) boot: Enabling RNG early entropy source...[0m
+[0;32mI (55) boot: Partition Table:[0m
+[0;32mI (58) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (73) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (81) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (88) boot: End of partition table[0m
+[0;32mI (92) esp_image: segment 0: paddr=00010020 vaddr=3c050020 size=1ceb0h (118448) map[0m
+[0;32mI (120) esp_image: segment 1: paddr=0002ced8 vaddr=3fc8ba00 size=01388h (  5000) load[0m
+[0;32mI (121) esp_image: segment 2: paddr=0002e268 vaddr=40380000 size=01db0h (  7600) load[0m
+[0;32mI (127) esp_image: segment 3: paddr=00030020 vaddr=42000020 size=4a03ch (303164) map[0m
+[0;32mI (182) esp_image: segment 4: paddr=0007a064 vaddr=40381db0 size=09a74h ( 39540) load[0m
+[0;32mI (193) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (194) boot: Disabling RNG early entropy source...[0m
+[0;32mI (205) cpu_start: Unicore app[0m
+[0;32mI (205) cpu_start: Pro cpu up.[0m
+[0;32mI (214) cpu_start: Pro cpu start user code[0m
+[0;32mI (214) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (214) cpu_start: Application information:[0m
+[0;32mI (217) cpu_start: Project name:     GPS_test_c3[0m
+[0;32mI (222) cpu_start: App version:      d35011e-dirty[0m
+[0;32mI (228) cpu_start: Compile time:     Jul 23 2023 16:08:59[0m
+[0;32mI (234) cpu_start: ELF file SHA256:  2eb540de6...[0m
+[0;32mI (239) cpu_start: ESP-IDF:          v5.2-dev-823-g903af13e84-dirty[0m
+[0;32mI (246) cpu_start: Min chip rev:     v0.3[0m
+[0;32mI (251) cpu_start: Max chip rev:     v0.99 [0m
+[0;32mI (256) cpu_start: Chip rev:         v0.3[0m
+[0;32mI (260) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (268) heap_init: At 3FC8F350 len 0004D3C0 (308 KiB): DRAM[0m
+[0;32mI (274) heap_init: At 3FCDC710 len 00002950 (10 KiB): STACK/DRAM[0m
+[0;32mI (280) heap_init: At 50000020 len 00001FE0 (7 KiB): RTCRAM[0m
+[0;32mI (288) spi_flash: detected chip: generic[0m
+[0;32mI (291) spi_flash: flash io: dio[0m
+[0;33mW (295) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (311) sleep: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (315) sleep: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (322) app_start: Starting scheduler on CPU0[0m
+[0;32mI (327) main_task: Started on CPU0[0m
+[0;32mI (327) main_task: Calling app_main()[0m
+  REady  ---------------------------------------
+ [0;32mI (1337) UART: Start  RX(2) TX(3)[0m
+rxbytes=[1024]
+group count = (23)
+Analyse de GGA --$GPRMC,145058.00,V,,,,,,,250723,,,N*71--
+Analyse de RMC --$GPRMC,145058.00,V,,,,,,,250723,,,N*71--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145058.00,,,,,0,00,99.99,,,,,,*6B--
+Analyse de RMC --$GPGGA,145058.00,,,,,0,00,99.99,,,,,,*6B--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,,09,27,060,18*78--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,,09,27,060,18*78--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de GGA --$GPGLL,,,,,145058.00,V,N*47--
+Analyse de RMC --$GPGLL,,,,,145058.00,V,N*47--
+Analyse de GGA --$GPRMC,145059.00,V,,,,,,,250723,,,N*70--
+Analyse de RMC --$GPRMC,145059.00,V,,,,,,,250723,,,N*70--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145059.00,,,,,0,00,99.99,,,,,,*6A--
+Analyse de RMC --$GPGGA,145059.00,,,,,0,00,99.99,,,,,,*6A--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,27,09,27,060,18*7D--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,27,09,27,060,18*7D--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de GGA --$GPGLL,,,,,145059.00,V,N*46--
+Analyse de RMC --$GPGLL,,,,,145059.00,V,N*46--
+Analyse de GGA --$GPRMC,145100.00,V,,,,,,,250723,,,N*7D--
+Analyse de RMC --$GPRMC,145100.00,V,,,,,,,250723,,,N*7D--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145100.00,,,,,0,00,99.99,,,,,,*67--
+Analyse de RMC --$GPGGA,145100.00,,,,,0,00,99.99,,,,,,*67--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,27,09,27,060,18*7D--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,27,09,27,060,18*7D--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de GGA --�M�?--
+Analyse de RMC --�M�?--
+No GGA valid found
+No RMC valid found
+rxbytes=[1024]
+group count = (23)
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de GGA --$GPGLL,,,,,145100.00,V,N*4B--
+Analyse de RMC --$GPGLL,,,,,145100.00,V,N*4B--
+Analyse de GGA --$GPRMC,145101.00,V,,,,,,,250723,,,N*7C--
+Analyse de RMC --$GPRMC,145101.00,V,,,,,,,250723,,,N*7C--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145101.00,,,,,0,00,99.99,,,,,,*66--
+Analyse de RMC --$GPGGA,145101.00,,,,,0,00,99.99,,,,,,*66--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,,05,32,243,18,06,36,018,27,09,27,060,18*7C--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,,05,32,243,18,06,36,018,27,09,27,060,18*7C--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de GGA --$GPGLL,,,,,145101.00,V,N*4A--
+Analyse de RMC --$GPGLL,,,,,145101.00,V,N*4A--
+Analyse de GGA --$GPRMC,145102.00,V,,,,,,,250723,,,N*7F--
+Analyse de RMC --$GPRMC,145102.00,V,,,,,,,250723,,,N*7F--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145102.00,,,,,0,00,99.99,,,,,,*65--
+Analyse de RMC --$GPGGA,145102.00,,,,,0,00,99.99,,,,,,*65--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,18,05,32,243,18,06,36,018,28,09,27,060,18*7A--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,18,05,32,243,18,06,36,018,28,09,27,060,18*7A--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,16,30,05,141,*79--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,16,30,05,141,*79--
+Analyse de GGA --$GPGLL,,,,,145102.00,V,N*49--
+Analyse de RMC --$GPGLL,,,,,145102.00,V,N*49--
+Analyse de GGA --$GPRMC,145103.00,V,,,,,,,250723,,,N*7E--
+Analyse de RMC --$GPRMC,145103.00,V,,,,,,,250723,,,N*7E--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145103.00,,,,,0,00,99.99,,,,,,*64--
+Analyse de RMC --$GPGGA,145103.00,,,,,0,00,99.99,,,,,,*64--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,16,05,32,24�M�?--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,16,05,32,24�M�?--
+No GGA valid found
+No RMC valid found
+rxbytes=[1024]
+group count = (23)
+Analyse de GGA --3,18,06,36,018,27,09,27,060,19*7A--
+Analyse de RMC --3,18,06,36,018,27,09,27,060,19*7A--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,27,12,24,300,,13,09,194,,14,12,165,*7E--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de GGA --$GPGLL,,,,,145103.00,V,N*48--
+Analyse de RMC --$GPGLL,,,,,145103.00,V,N*48--
+Analyse de GGA --$GPRMC,145104.00,V,,,,,,,250723,,,N*79--
+Analyse de RMC --$GPRMC,145104.00,V,,,,,,,250723,,,N*79--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145104.00,,,,,0,00,99.99,,,,,,*63--
+Analyse de RMC --$GPGGA,145104.00,,,,,0,00,99.99,,,,,,*63--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,27,09,27,060,18*7D--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,27,09,27,060,18*7D--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,*71--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,*71--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,17,30,05,141,*78--
+Analyse de GGA --$GPGLL,,,,,145104.00,V,N*4F--
+Analyse de RMC --$GPGLL,,,,,145104.00,V,N*4F--
+Analyse de GGA --$GPRMC,145105.00,V,,,,,,,250723,,,N*78--
+Analyse de RMC --$GPRMC,145105.00,V,,,,,,,250723,,,N*78--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145105.00,,,,,0,00,99.99,,,,,,*62--
+Analyse de RMC --$GPGGA,145105.00,,,,,0,00,99.99,,,,,,*62--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,27,09,27,060,18*7D--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,,05,32,243,19,06,36,018,27,09,27,060,18*7D--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,*71--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,*71--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de GGA --$GPGLL,,,,,145105.00,V,N*4E--
+Analyse de RMC --$GPGLL,,,,,145105.00,V,N*4E--
+Analyse de GGA --$GPRMC,145106.00,V,,,,,,,250723,,,N*7B--
+Analyse de RMC --$GPRMC,145106.00,V,,,,,,,250723,,,N*7B--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145106.00,,,,,0,00�M�?--
+Analyse de RMC --$GPGGA,145106.00,,,,,0,00�M�?--
+No GGA valid found
+No RMC valid found
+rxbytes=[1024]
+group count = (22)
+Analyse de GGA --,99.99,,,,,,*61--
+Analyse de RMC --,99.99,,,,,,*61--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,,05,32,243,18,06,36,018,27,09,27,060,17*73--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,,05,32,243,18,06,36,018,27,09,27,060,17*73--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,19*79--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,19*79--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de GGA --$GPGLL,,,,,145106.00,V,N*4D--
+Analyse de RMC --$GPGLL,,,,,145106.00,V,N*4D--
+Analyse de GGA --$GPRMC,145107.00,V,,,,,,,250723,,,N*7A--
+Analyse de RMC --$GPRMC,145107.00,V,,,,,,,250723,,,N*7A--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145107.00,,,,,0,00,99.99,,,,,,*60--
+Analyse de RMC --$GPGGA,145107.00,,,,,0,00,99.99,,,,,,*60--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,,05,32,243,17,06,36,018,27,09,27,060,18*73--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,,05,32,243,17,06,36,018,27,09,27,060,18*73--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,17*77--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,17*77--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de GGA --$GPGLL,,,,,145107.00,V,N*4C--
+Analyse de RMC --$GPGLL,,,,,145107.00,V,N*4C--
+Analyse de GGA --$GPRMC,145108.00,V,,,,,,,250723,,,N*75--
+Analyse de RMC --$GPRMC,145108.00,V,,,,,,,250723,,,N*75--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145108.00,,,,,0,00,99.99,,,,,,*6F--
+Analyse de RMC --$GPGGA,145108.00,,,,,0,00,99.99,,,,,,*6F--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,044,,05,32,243,18,06,36,018,27,09,27,060,18*7C--
+Analyse de RMC --$GPGSV,3,1,12,04,04,044,,05,32,243,18,06,36,018,27,09,27,060,18*7C--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,14*74--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,14*74--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,19,30,05,141,*76--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,19,30,05,141,*76--
+Analyse de GGA --$GPGLL,,,,,145�M�?--
+Analyse de RMC --$GPGLL,,,,,145�M�?--
+No GGA valid found
+No RMC valid found
+rxbytes=[1024]
+group count = (23)
+Analyse de GGA --108.00,V,N*43--
+Analyse de RMC --108.00,V,N*43--
+Analyse de GGA --$GPRMC,145109.00,V,,,,,,,250723,,,N*74--
+Analyse de RMC --$GPRMC,145109.00,V,,,,,,,250723,,,N*74--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145109.00,,,,,0,00,99.99,,,,,,*6E--
+Analyse de RMC --$GPGGA,145109.00,,,,,0,00,99.99,,,,,,*6E--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,043,,05,32,243,18,06,36,018,27,09,27,060,19*7A--
+Analyse de RMC --$GPGSV,3,1,12,04,04,043,,05,32,243,18,06,36,018,27,09,27,060,19*7A--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,14*74--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,28,12,24,300,,13,09,194,,14,12,165,14*74--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de GGA --$GPGLL,,,,,145109.00,V,N*42--
+Analyse de RMC --$GPGLL,,,,,145109.00,V,N*42--
+Analyse de GGA --$GPRMC,145110.00,V,,,,,,,250723,,,N*7C--
+Analyse de RMC --$GPRMC,145110.00,V,,,,,,,250723,,,N*7C--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145110.00,,,,,0,00,99.99,,,,,,*66--
+Analyse de RMC --$GPGGA,145110.00,,,,,0,00,99.99,,,,,,*66--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,043,,05,32,244,18,06,36,018,27,09,27,060,19*7D--
+Analyse de RMC --$GPGSV,3,1,12,04,04,043,,05,32,244,18,06,36,018,27,09,27,060,19*7D--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,29,12,24,300,,13,09,194,,14,12,165,13*72--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,29,12,24,300,,13,09,194,,14,12,165,13*72--
+Analyse de GGA --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de RMC --$GPGSV,3,3,12,17,51,109,,19,64,076,,20,52,277,18,30,05,141,*77--
+Analyse de GGA --$GPGLL,,,,,145110.00,V,N*4A--
+Analyse de RMC --$GPGLL,,,,,145110.00,V,N*4A--
+Analyse de GGA --$GPRMC,145111.00,V,,,,,,,250723,,,N*7D--
+Analyse de RMC --$GPRMC,145111.00,V,,,,,,,250723,,,N*7D--
+isValidRMC*******************
+Analyse de GGA --$GPVTG,,,,,,,,,N*30--
+Analyse de RMC --$GPVTG,,,,,,,,,N*30--
+Analyse de GGA --$GPGGA,145111.00,,,,,0,00,99.99,,,,,,*67--
+Analyse de RMC --$GPGGA,145111.00,,,,,0,00,99.99,,,,,,*67--
+Analyse de GGA --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de RMC --$GPGSA,A,1,,,,,,,,,,,,,99.99,99.99,99.99*30--
+Analyse de GGA --$GPGSV,3,1,12,04,04,043,,05,32,244,18,06,36,019,27,09,27,060,19*7C--
+Analyse de RMC --$GPGSV,3,1,12,04,04,043,,05,32,244,18,06,36,019,27,09,27,060,19*7C--
+Analyse de GGA --$GPGSV,3,2,12,11,32,325,29,12,24,300,,13,09�M�?--
+Analyse de RMC --$GPGSV,3,2,12,11,32,325,29,12,24,300,,13,09�M�?--
+No GGA valid found
+No RMC valid found
+[0m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                          ]2;boony@atuf:~dev/IDF_PROJS/idf_gps_data/GPS_test_c3]1;..a/GPS_test_c3[0m[27m[24m[J[0m[49m[39m[0m[47m[38;5;30m [0m[38;5;30m[47m[47m[38;5;30m [0m[38;5;30m[47m[48;5;30m[37m[0m[37m[48;5;30m[48;5;30m[38;5;254m  [1m[38;5;254m[48;5;30m[38;5;255m~dev[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m/IDF_PROJS/[1m[38;5;254m[48;5;30m[38;5;255midf_gps_data[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m/[1m[38;5;254m[48;5;30m[38;5;255mGPS_test_c3[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m[0m[38;5;254m[48;5;30m[48;5;30m[38;5;254m [0m[38;5;254m[48;5;30m[100m[38;5;30m[0m[38;5;30m[100m[100m[30m  [30m main [30m?1  [0m[30m[100m[100m[30m [0m[30m[100m[49m[90m[0m[90m[49m[39m [0m[49m[39m[K[172C[0m[49m[30m[0m[30m[40m[32m [0m[32m[40m[40m[32m✔[0m[32m[40m[40m[32m [0m[32m[40m[40m[32m[33m[0m[33m[40m[43m[30m 18s[0m[30m[43m[43m[30m [0m[30m[43m[43m[30m [0m[30m[43m[49m[39m[184D[?2004h[?25l[0m[27m[24m[J[0m[49m[39m[0m[47m[38;5;30m [0m[38;5;30m[47m[47m[38;5;30m [0m[38;5;30m[47m[48;5;30m[37m[0m[37m[48;5;30m[48;5;30m[38;5;254m  [1m[38;5;254m[48;5;30m[38;5;255m~dev[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m/IDF_PROJS/[1m[38;5;254m[48;5;30m[38;5;255midf_gps_data[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m/[1m[38;5;254m[48;5;30m[38;5;255mGPS_test_c3[0m[38;5;255m[48;5;30m[48;5;30m[38;5;254m[0m[38;5;254m[48;5;30m[48;5;30m[38;5;254m [0m[38;5;254m[48;5;30m[42m[38;5;30m[0m[38;5;30m[42m[42m[30m  [30m main [30m?1  [0m[30m[42m[42m[30m [0m[30m[42m[49m[32m[0m[32m[49m[39m [0m[49m[39m[K[172C[0m[49m[30m[0m[30m[40m[32m [0m[32m[40m[40m[32m✔[0m[32m[40m[40m[32m [0m[32m[40m[40m[32m[33m[0m[33m[40m[43m[30m 18s[0m[30m[43m[43m[30m [0m[30m[43m[43m[30m [0m[30m[43m[49m[39m[184D[?25h[1m[31me[0m[39m[1m[31me[0m[39m[38;5;244mxit[39m[0m[32me[32mx[39m[1m[31me[1m[31mx[1m[31mi[0m[39m[0m[32me[0m[32mx[0m[32mi[32mt[39m[?2004l
+]2;exit]1;]0;boony@atuf:/run/media/boony/data/boony/documents/dev/IDF_PROJS/idf_gps_data/GPS_test_c3[?2004h[01;32m[boony@atuf[01;37m GPS_test_c3[01;32m]$[00m exit
+[?2004lexit
+
+Script terminé sur 2023-07-25 10:51:11-04:00 [COMMAND_EXIT_CODE="0"]
