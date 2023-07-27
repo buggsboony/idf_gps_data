@@ -9,6 +9,7 @@
 #include "driver/gpio.h"
 
 #include "driver/uart.h"
+#include "esp_timer.h" //2023-07-27 10:06:16 - esp_timer_get_time()
 
 const char * TAG ="GPS_DATA";
 
@@ -81,12 +82,17 @@ void uart_event_task(void *pvParameters)
 
    uint8_t* data = (uint8_t*)malloc(RX_BUF_SIZE+1);
 //    int msTimeout = 20; //TimeOut To wait Works With 2024 and 20ms
-    int msTimeout = 900; //msTimeout/portTICK_RATE_MS TimeOut To wait Works With 2024 and 20ms
+    int msTimeout = 600; //msTimeout/portTICK_RATE_MS TimeOut To wait Works With 2024 and 20ms
     //Pour msTimeout = 1180 et  RX_BUF_SIZE = 1024, we get 10 analyze loops in 18 secs.
   
-    TickType_t startTicksCount = xTaskGetTickCount();
-    TickType_t fixGPS_TicksCount;
+
     bool fix_found_first_time = false;
+    long long int startTimer = esp_timer_get_time();
+    long long int fixGPS_timer;
+    float fixTimeMS = -1;
+    double maxSpeed = 0;
+
+
    while(true)
    {
        const int rxbytes = uart_read_bytes(UART_PORT,data, RX_BUF_SIZE,pdMS_TO_TICKS(msTimeout) );
@@ -117,10 +123,10 @@ void uart_event_task(void *pvParameters)
                 {     
                     if(!fix_found_first_time)
                     {
-                        fix_found_first_time = true;
-                        fixGPS_TicksCount = xTaskGetTickCount(); //2023-07-25 13:52:38 - Get elapsed time to find a GPS Fix
-                        TickType_t elapsedTicks = fixGPS_TicksCount - startTicksCount;
-                        printf("Got fix at : %u ticks\n", (unsigned int) elapsedTicks);
+                        fix_found_first_time = true;                  
+                        fixGPS_timer = esp_timer_get_time();//2023-07-27 10:04:05 - Get elapsed time to find a GPS Fix
+                        float diffTime = (float) fixGPS_timer - startTimer;
+                        fixTimeMS = (diffTime/1000);                                                                  
                     }
                     RMC_sentence = line;
                     println("RMC="+RMC_sentence,KYEL);
@@ -132,6 +138,8 @@ void uart_event_task(void *pvParameters)
             if(myGPS.GGA_valid)
             {
                 ESP_LOGI(TAG,"GGA is OK");
+                ESP_LOGW(TAG, "TIME TO GET A FIX: %f ms\n",fixTimeMS  );  
+                ESP_LOGW(TAG,"maxSpeed : %f KM/H",maxSpeed); 
                 ESP_LOGI(TAG,"myGPS Quality:%f",myGPS.quality);
                 ESP_LOGI(TAG,"myGPS Sat count:%d",myGPS.numberSatellites);
                 ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
@@ -152,7 +160,8 @@ void uart_event_task(void *pvParameters)
                 ESP_LOGI(TAG,"myGPS GPS_UTC=%s",myGPS.time.toString().c_str() );
                 ESP_LOGI(TAG,"myGPS LAT:%f",myGPS.latitude);
                 ESP_LOGI(TAG,"myGPS LNG:%f",myGPS.longitude); 
-                ESP_LOGW(TAG,"myGPS SPD:%f KM/H",myGPS.speed);          
+                ESP_LOGW(TAG,"myGPS SPD:%f KM/H",myGPS.speed); 
+                if(myGPS.speed > maxSpeed ) maxSpeed = myGPS.speed; //2023-07-27 10:37:14 - Store max speed
                 cout<<"************************RMC*****************"<<endl;
 
             }else
